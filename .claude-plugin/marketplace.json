@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-marketplace.json",
+  "name": "templafy-plugins",
+  "owner": {
+    "name": "Templafy"
+  },
+  "description": "Templafy skills and MCP connector for on-brand presentation creation.",
+  "plugins": [
+    {
+      "name": "templafy",
+      "source": "./templafy",
+      "description": "Create on-brand, compliant presentations with Templafy — from prompt to business-ready PowerPoint, built from your company's approved themes and Document Agents.",
+      "category": "productivity",
+      "keywords": ["templafy", "presentations", "powerpoint", "brand-governance", "document-generation"]
+    }
+  ]
+}

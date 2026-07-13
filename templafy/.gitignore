@@ -1,0 +1,8 @@
+# ChatGPT distribution build output (regenerate with the zip step in CHATGPT-DISTRIBUTION.md)
+dist-chatgpt/
+
+# Claude Desktop / Cowork upload zip (regenerate with scripts/build-desktop-zip.ps1)
+dist/
+
+# stray archive that shouldn't live inside the plugin
+skills.zip
