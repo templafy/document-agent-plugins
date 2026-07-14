@@ -1,0 +1,20 @@
+{
+  "name": "templafy-plugins",
+  "interface": {
+    "displayName": "Templafy Plugins"
+  },
+  "plugins": [
+    {
+      "name": "templafy",
+      "source": {
+        "source": "local",
+        "path": "./templafy"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    }
+  ]
+}

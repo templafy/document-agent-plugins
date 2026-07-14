@@ -24,17 +24,20 @@ Use only the Templafy connector tools (`find_document_agents`, `list_themes`, `c
 
 - `artifact_handoff.prepare_artifact_generation`
 - `canmore.create_textdoc` / `canmore.update_textdoc` (canvas)
+- ChatGPT's built-in **`presentations`** skill (its pptxgenjs/slide-scaffold deck builder — signs it is
+  running include "listed slide files and helpers", "validated package", "created … slides with shapes")
 - any other built-in "create a document / canvas / slides / artifact" tool
-- code or libraries to build the file yourself (python-pptx, LibreOffice, a local `.pptx`).
+- code or libraries to build the file yourself (python-pptx, pptxgenjs, LibreOffice, a local `.pptx`).
 
 If the environment auto-suggests or auto-routes to one of these — most often **right after the user picks an
 agent or theme** — that is the wrong path. Do not follow it; continue with the Templafy tool the flow asks for.
 Being routed to a built-in tool is **not** a sign Templafy is unavailable, and you must never tell the user
 Templafy is disabled or broken while its tools are present.
 
-> The named tools (`artifact_handoff`, `canmore`/canvas) are **ChatGPT's built-ins** — this rule is the
-> **ChatGPT routing guard**, and in assistants that don't have them it's a harmless no-op. Otherwise defer to
-> Templafy's own flow (Rule 2). Full guard: `references/chatgpt-routing.md`.
+> The named tools (`artifact_handoff`, `canmore`/canvas, the built-in **`presentations`** skill) are
+> **ChatGPT's built-ins** — this rule is the **ChatGPT routing guard**, and in assistants that don't have them
+> it's a harmless no-op. Otherwise defer to Templafy's own flow (Rule 2). Full guard:
+> `references/chatgpt-routing.md`.
 
 ## Rule 2 — Stay on Templafy's rails to the end
 

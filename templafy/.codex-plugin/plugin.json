@@ -6,7 +6,7 @@
   "homepage": "https://www.templafy.com/",
   "keywords": ["templafy", "presentations", "powerpoint", "brand-governance", "document-generation"],
   "skills": "./skills/",
-  "mcpServers": "./mcp.codex.json",
+  "mcpServers": "./.mcp.json",
   "interface": {
     "displayName": "Templafy",
     "shortDescription": "On-brand presentations from your approved themes and Document Agents.",
@@ -17,6 +17,7 @@
     "defaultPrompt": [
       "Create an on-brand presentation with Templafy.",
       "Make a 5-slide business review deck with Templafy."
-    ]
+    ],
+    "developerName": "Templafy"
   }
 }

@@ -1,6 +1,9 @@
 # ChatGPT distribution build output (regenerate with the zip step in CHATGPT-DISTRIBUTION.md)
 dist-chatgpt/
 
+# ChatGPT/Codex plugin upload zip (regenerate with scripts/build-codex-zip.ps1)
+dist-codex/
+
 # Claude Desktop / Cowork upload zip (regenerate with scripts/build-desktop-zip.ps1)
 dist/
 

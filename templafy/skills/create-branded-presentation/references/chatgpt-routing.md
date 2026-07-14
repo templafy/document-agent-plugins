@@ -8,10 +8,19 @@ model gets pulled into non-Templafy tools:
 
 - `artifact_handoff.prepare_artifact_generation` — fires repeatedly, even after the user says "only Templafy"
   or "skip artifact_handoff".
+- ChatGPT's built-in **`presentations`** skill — a native skill that builds a deck with pptxgenjs/python-pptx.
+  It often wins *skill selection* outright, so a "make a deck" request never reaches the Templafy skill at all.
+  Tell-tale trace steps: "listed slide files and helpers", "created directory, validated package, and inspected
+  functions and scripts", "created … slides with shapes and images".
 - `canmore.create_textdoc` / `canmore.update_textdoc` — canvas notes, unrelated to generation.
 
 The model then wrongly concludes "Templafy is disabled/unavailable" and stops — even though the Templafy tools
 are still present and were working moments earlier.
+
+> **Selection vs. behaviour.** This guard only helps once the Templafy skill is *selected*. If ChatGPT's
+> built-in `presentations` skill is picked first, this skill never runs — that is a workspace/agent
+> configuration problem (deprioritize the built-ins), not something a skill body can fix. See
+> `TESTING-IN-CHATGPT.md`.
 
 ## The rule
 

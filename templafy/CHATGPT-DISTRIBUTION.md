@@ -13,12 +13,12 @@ two parts — **ship the plugin** and **configure the agent so Templafy wins rou
 The ChatGPT/Codex side of the dual-manifest plugin:
 
 ```
-templafy-plugin/
+WebApi.Mcp/plugins/templafy/
 ├── .codex-plugin/plugin.json     # Codex manifest (name, version, skills, mcpServers, interface)
 ├── skills/<name>/
 │   ├── SKILL.md                  # the workflow (shared with Claude)
 │   └── agents/openai.yaml        # Codex metadata: MCP dependency + allow_implicit_invocation
-└── mcp.codex.json                # remote Templafy connector (Codex url-only form)
+└── .mcp.json                     # remote Templafy connector (shared with Claude)
 ```
 
 The `.claude-plugin/` files and `.mcp.json` are **Claude-only** — Codex ignores them. There is **no
@@ -33,7 +33,7 @@ zip step**; the plugin is a folder.
   verification (a token at `/.well-known/openai-apps-challenge`), and 5 positive + 3 negative test
   cases. Fill the `interface` block in `.codex-plugin/plugin.json` accordingly.
 
-> **Connector auth:** `mcp.codex.json` declares the hosted Templafy connector by URL. Confirm on a
+> **Connector auth:** `.mcp.json` declares the hosted Templafy connector by URL. Confirm on a
 > real install that it triggers the Templafy OAuth sign-in. If it doesn't, ship a **skills-only**
 > plugin (drop the `mcpServers` pointer) and rely on the already-published Templafy ChatGPT app to
 > provide the connector; each skill's `agents/openai.yaml` still declares the dependency.
