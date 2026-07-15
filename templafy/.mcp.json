@@ -2,7 +2,8 @@
   "mcpServers": {
     "templafy": {
       "type": "http",
-      "url": "https://mcp.templafy.com/"
+      "url": "https://mcp.templafy.com/",
+      "oauth_resource": "https://mcp.templafy.com/"
     }
   }
 }
