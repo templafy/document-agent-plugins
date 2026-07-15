@@ -8,7 +8,7 @@
       "name": "templafy",
       "source": {
         "source": "local",
-        "path": "./templafy/.codex-plugin"
+        "path": "./templafy"
       },
       "policy": {
         "installation": "AVAILABLE",
