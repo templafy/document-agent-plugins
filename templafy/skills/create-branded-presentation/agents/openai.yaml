@@ -1,0 +1,13 @@
+# ChatGPT/Codex skill metadata (optional; ignored by Claude).
+policy:
+  allow_implicit_invocation: true
+dependencies:
+  tools:
+    - type: "mcp"
+      value: "templafy"
+      transport: "streamable_http"
+      url: "https://mcp.templafy.com/"
+      description: "Templafy presentation connector"
+interface:
+  display_name: "Create a branded presentation"
+  short_description: "Build an on-brand deck end-to-end through Templafy."

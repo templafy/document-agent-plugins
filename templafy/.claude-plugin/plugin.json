@@ -1,0 +1,8 @@
+{
+  "name": "templafy",
+  "version": "0.1.0",
+  "description": "Create on-brand, compliant presentations with Templafy — from prompt to business-ready PowerPoint, built from your company's approved themes and Document Agents.",
+  "author": { "name": "Templafy" },
+  "homepage": "https://www.templafy.com/",
+  "keywords": ["templafy", "presentations", "powerpoint", "brand-governance", "document-generation"]
+}

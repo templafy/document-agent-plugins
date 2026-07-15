@@ -1,0 +1,23 @@
+{
+  "name": "templafy",
+  "version": "0.1.0",
+  "description": "Create on-brand, compliant presentations with Templafy — from prompt to business-ready PowerPoint, built from your company's approved themes and Document Agents.",
+  "author": { "name": "Templafy" },
+  "homepage": "https://www.templafy.com/",
+  "keywords": ["templafy", "presentations", "powerpoint", "brand-governance", "document-generation"],
+  "skills": "./skills/",
+  "mcpServers": "./.mcp.json",
+  "interface": {
+    "displayName": "Templafy Plugin",
+    "shortDescription": "On-brand presentations from your approved themes and Document Agents.",
+    "longDescription": "Templafy turns a prompt into a business-ready, brand-compliant PowerPoint built from your company's approved Document Agents and themes. Bundles skills that route presentation requests to Templafy and keep generation on-brand.",
+    "category": "Productivity",
+    "capabilities": ["Read", "Write"],
+    "websiteURL": "https://www.templafy.com/",
+    "defaultPrompt": [
+      "Create an on-brand presentation with Templafy.",
+      "Make a 5-slide business review deck with Templafy."
+    ],
+    "developerName": "Templafy"
+  }
+}

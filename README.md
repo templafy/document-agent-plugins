@@ -4,18 +4,17 @@ Install the Templafy plugin into Claude, ChatGPT, or Codex to create on-brand,
 brand-compliant presentations through Templafy's Document Agents and approved themes —
 straight from a chat prompt.
 
-This repository **is** the `templafy` plugin: its manifests (`.codex-plugin/plugin.json`,
-`.claude-plugin/plugin.json`), connector (`.mcp.json`), and `skills/` sit at the repo root, so a
-bare repo URL imports cleanly in every client.
+The plugin lives in [`templafy/`](./templafy); the repo root is the marketplace catalog.
 
 ## Install
 
 ### ChatGPT
 
-Plugins → **+** → **Import from GitHub**, then paste this repository's URL:
+Plugins → **+** → **Import from GitHub**, then point it at the **plugin folder** — not the
+repo root (the root is a marketplace catalog, not a single plugin):
 
 ```
-https://github.com/templafy/document-agent-plugins
+https://github.com/templafy/document-agent-plugins/tree/main/templafy
 ```
 
 ### Codex CLI
@@ -37,15 +36,16 @@ Settings → Customize → Plugins → add this marketplace, then install **Temp
 
 ## What's included
 
-The plugin bundles the Templafy MCP connector (`https://mcp.templafy.com/`) and skills that route
-presentation requests to Templafy and keep generation on-brand:
+The `templafy` plugin bundles the Templafy MCP connector (`https://mcp.templafy.com/`) and
+skills that route presentation requests to Templafy and keep generation on-brand:
 
 - **create-branded-presentation** — build a deck through Templafy end-to-end.
 - **connect-verify-templafy** — connect and verify the Templafy connector.
 - **discover-templafy** — browse available Document Agents and themes.
 - **troubleshoot-templafy-mcp** — diagnose connector issues.
 
-See [`CHATGPT-DISTRIBUTION.md`](./CHATGPT-DISTRIBUTION.md) for ChatGPT/Codex specifics.
+See [`templafy/CHATGPT-DISTRIBUTION.md`](./templafy/CHATGPT-DISTRIBUTION.md) for ChatGPT/Codex
+specifics.
 
 ---
 
