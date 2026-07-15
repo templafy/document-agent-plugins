@@ -6,6 +6,7 @@
   "homepage": "https://www.templafy.com/",
   "keywords": ["templafy", "presentations", "powerpoint", "brand-governance", "document-generation"],
   "skills": "./skills/",
+  "apps": "./.app.json",
   "mcpServers": "./.mcp.json",
   "interface": {
     "displayName": "Templafy Plugin",

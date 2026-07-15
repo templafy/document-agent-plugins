@@ -41,6 +41,9 @@ try {
     # Connector: the shared .mcp.json is accepted by both Claude and Codex/ChatGPT — ship as-is.
     Copy-Item (Join-Path $src ".mcp.json") (Join-Path $stage ".mcp.json")
 
+    # App reference: points at the pre-registered Templafy app (OAuth handled there).
+    if (Test-Path (Join-Path $src ".app.json")) { Copy-Item (Join-Path $src ".app.json") (Join-Path $stage ".app.json") }
+
     Copy-Item (Join-Path $src "skills") (Join-Path $stage "skills") -Recurse
     if (Test-Path (Join-Path $src "README.md")) { Copy-Item (Join-Path $src "README.md") (Join-Path $stage "README.md") }
 
