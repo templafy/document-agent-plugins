@@ -8,7 +8,7 @@
   "skills": "./skills/",
   "mcpServers": "./.mcp.json",
   "interface": {
-    "displayName": "Templafy",
+    "displayName": "Templafy Plugin",
     "shortDescription": "On-brand presentations from your approved themes and Document Agents.",
     "longDescription": "Templafy turns a prompt into a business-ready, brand-compliant PowerPoint built from your company's approved Document Agents and themes. Bundles skills that route presentation requests to Templafy and keep generation on-brand.",
     "category": "Productivity",
