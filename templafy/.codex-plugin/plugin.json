@@ -1,22 +1,23 @@
 {
   "name": "templafy",
-  "version": "1.1.0",
-  "description": "Create on-brand, compliant presentations with Templafy — from prompt to business-ready PowerPoint, built from your company's approved themes and Document Agents.",
+  "version": "1.4.2",
+  "description": "Connect ChatGPT to Templafy Document Agents and turn AI-generated content and company knowledge into business-ready PowerPoint presentations. Users can discover relevant document agents, choose company approved themes, collect requirements, and generate a branded PPTX. Every output is built from approved templates, brand assets, and best-practice content, ensuring documents are consistent and compliant without copying, reformatting, or manual cleanup.",
   "author": { "name": "Templafy" },
-  "homepage": "https://www.templafy.com/",
+  "homepage": "https://templafy.com",
   "keywords": ["templafy", "presentations", "powerpoint", "brand-governance", "document-generation"],
   "skills": "./skills/",
+  "apps": "./.app.json",
   "mcpServers": "./.mcp.json",
   "interface": {
-    "displayName": "Templafy Plugin",
-    "shortDescription": "On-brand presentations from your approved themes and Document Agents.",
-    "longDescription": "Templafy turns a prompt into a business-ready, brand-compliant PowerPoint built from your company's approved Document Agents and themes. Bundles skills that route presentation requests to Templafy and keep generation on-brand.",
+    "displayName": "Templafy",
+    "shortDescription": "From prompt to business-ready",
+    "longDescription": "Connect ChatGPT to Templafy Document Agents and turn AI-generated content and company knowledge into business-ready PowerPoint presentations. Users can discover relevant document agents, choose company approved themes, collect requirements, and generate a branded PPTX. Every output is built from approved templates, brand assets, and best-practice content, ensuring documents are consistent and compliant without copying, reformatting, or manual cleanup.",
     "category": "Productivity",
     "capabilities": ["Read", "Write"],
-    "websiteURL": "https://www.templafy.com/",
+    "websiteURL": "https://templafy.com",
     "defaultPrompt": [
-      "Create an on-brand presentation with Templafy.",
-      "Make a 5-slide business review deck with Templafy."
+      "Prepare a 10-slide Q3 business review using our default theme.",
+      "What Templafy document agents and themes do I have?"
     ],
     "developerName": "Templafy"
   }

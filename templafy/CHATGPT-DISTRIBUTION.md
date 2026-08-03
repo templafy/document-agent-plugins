@@ -3,7 +3,9 @@
 The Templafy plugin bundles two things ChatGPT treats **separately**, and that distinction drives the plan:
 
 - an **MCP-backed app (connector)** — the hosted `mcp.templafy.com` server, declared in `.mcp.json` (this stays
-  in **every** build); `.app.json` is only an *optional* reference to a pre-registered app id, dropped by default; and
+  in **every** build); `.app.json` references the pre-registered app id — **required to *import* the plugin from
+  GitHub/marketplace for the OAuth connector** (see *Known issue* below), excludable only for the portal
+  submission or an app-agnostic public mirror; and
 - **skills** — the `SKILL.md` routing/workflow guides under `skills/`.
 
 | Piece | Chat | Work | Codex | Role |
@@ -42,12 +44,14 @@ WebApi.Mcp/plugins/templafy/
 `.mcp.json` MCP connector is kept in **every** build — this is a **full plugin**, not a skills-only wrapper.
 Only the `.app.json` **app-id reference** is conditional:
 
-- **Default — full plugin, no app-id reference** (skills + the `.mcp.json` MCP connector; drops only the
-  registered `.app.json` id). **Use this for both submission and testing:**
+- **Default — no app-id reference** (app-agnostic; skills + the `.mcp.json` connector). Fine for the **portal
+  submission** (which registers the app and resolves its OAuth) and for a public mirror — but an OAuth MCP server
+  **cannot be imported** this way (see *Known issue*):
   ```powershell
   pwsh scripts/build-codex-zip.ps1
   ```
-- **Optional** — re-attach the registered app id if a build ever needs it:
+- **`-IncludeApp` — with the registered app** (`.app.json`). **Required to *import* the plugin from
+  GitHub/marketplace** for an OAuth MCP server — the registered `asdk_app_…` carries the resolved OAuth config:
   ```powershell
   pwsh scripts/build-codex-zip.ps1 -IncludeApp
   ```
@@ -66,6 +70,26 @@ pwsh scripts/build-submission.ps1
   (icon/logo/screenshots), a `brandColor`, privacy/terms URLs, domain verification (token at
   `/.well-known/openai-apps-challenge`), and **5 positive + 3 negative test cases** (see `REGRESSION-TESTS.md`).
   Fill the `interface` block in `.codex-plugin/plugin.json`. Build with `-IncludeApp`.
+
+## Known issue — importing an OAuth MCP plugin from GitHub needs the registered app
+
+An OAuth-protected MCP server **cannot be provisioned by a GitHub/marketplace *import* from a raw `.mcp.json`.**
+That path — unlike a manually-added **custom connector** — does not run the live OAuth discovery
+(`/.well-known/oauth-protected-resource` → auth-server metadata → CIMD/DCR → interactive consent); it expects the
+OAuth to be **pre-resolved on a registered app** referenced via `.app.json` (`apps`). So an **app-id-free import
+fails** — an opaque `502` on `…/import-marketplace/result` — while the *same* server added as a **custom
+connector** (Developer Mode) works, because that path does the discovery for you. (This mirror imported cleanly
+on 2026-07-15 *with* `.app.json`, and 502s without it.) The portal *submission* flow is different — it registers
+the app and resolves its OAuth — so an app-id-free submission artifact is fine.
+
+**So: build/publish with `-IncludeApp` for anything you will *import* from the mirror.**
+
+Sources: OpenAI [plugin auth](https://developers.openai.com/plugins/build/auth) ·
+[MCP for plugins](https://developers.openai.com/api/docs/mcp) ·
+[WorkOS — CIMD](https://workos.com/blog/client-id-metadata-documents-cimd-oauth-client-registration-mcp) ·
+[copilot-cli #1967](https://github.com/github/copilot-cli/issues/1967) ·
+[claude-ai-mcp #359](https://github.com/anthropics/claude-ai-mcp/issues/359) ·
+[OpenAI community — OAuth client id no longer optional](https://community.openai.com/t/oauth-client-id-is-no-longer-optional/1367103)
 
 ## 4. Test in Work mode (with the improved skills)
 
