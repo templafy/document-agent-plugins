@@ -24,6 +24,14 @@
 #
 # Output: templafy-plugin/dist-codex/templafy-codex.zip  (gitignored)
 
+param(
+    # Bundle the pre-registered Templafy app-id reference (.app.json -> asdk_app id).
+    # OFF by default. The default build is the FULL plugin — skills + the .mcp.json MCP connector —
+    # with ONLY the environment-specific app-id reference removed. This default is used for BOTH
+    # submission and testing. -IncludeApp re-attaches the registered app id if a build ever needs it.
+    [switch]$IncludeApp
+)
+
 $ErrorActionPreference = "Stop"
 Add-Type -AssemblyName System.IO.Compression.FileSystem
 
@@ -35,14 +43,27 @@ $out     = Join-Path $distDir "templafy-codex.zip"
 try {
     New-Item -ItemType Directory -Force (Join-Path $stage ".codex-plugin") | Out-Null
 
-    # Manifest already targets the ChatGPT-required ./.mcp.json — copy as-is.
-    Copy-Item (Join-Path $src ".codex-plugin\plugin.json") (Join-Path $stage ".codex-plugin\plugin.json")
+    # The .mcp.json MCP connector is kept in EVERY build (below) — this is a full plugin, not a
+    # skills-only wrapper. Only the app-id reference (.app.json -> pre-registered app id) is
+    # CONDITIONAL: excluded by default (both submission and testing); pass -IncludeApp to re-attach it.
+    # Add/remove the app-id reference via a JSON round-trip so the manifest stays valid regardless of
+    # key order (a raw line-strip could leave a dangling trailing comma if "apps" were ever last).
+    $manifest = Get-Content (Join-Path $src ".codex-plugin\plugin.json") -Raw | ConvertFrom-Json
+    if ($IncludeApp) {
+        if (-not (Test-Path (Join-Path $src ".app.json"))) { throw "-IncludeApp set but .app.json not found" }
+        if ($manifest.PSObject.Properties.Name -notcontains 'apps') {
+            $manifest | Add-Member -NotePropertyName apps -NotePropertyValue "./.app.json"
+        }
+        Copy-Item (Join-Path $src ".app.json") (Join-Path $stage ".app.json")
+        Write-Host "App-id reference INCLUDED (.app.json bundled)"
+    } else {
+        if ($manifest.PSObject.Properties.Name -contains 'apps') { $manifest.PSObject.Properties.Remove('apps') }
+        Write-Host "App-id reference EXCLUDED (default) — full plugin with the .mcp.json MCP connector, no app-id"
+    }
+    ($manifest | ConvertTo-Json -Depth 20) | Set-Content -Path (Join-Path $stage ".codex-plugin\plugin.json") -Encoding utf8
 
     # Connector: the shared .mcp.json is accepted by both Claude and Codex/ChatGPT — ship as-is.
     Copy-Item (Join-Path $src ".mcp.json") (Join-Path $stage ".mcp.json")
-
-    # App reference: points at the pre-registered Templafy app (OAuth handled there).
-    if (Test-Path (Join-Path $src ".app.json")) { Copy-Item (Join-Path $src ".app.json") (Join-Path $stage ".app.json") }
 
     Copy-Item (Join-Path $src "skills") (Join-Path $stage "skills") -Recurse
     if (Test-Path (Join-Path $src "README.md")) { Copy-Item (Join-Path $src "README.md") (Join-Path $stage "README.md") }

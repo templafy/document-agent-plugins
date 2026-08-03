@@ -1,107 +1,49 @@
-# Testing the Templafy skills in ChatGPT
+# Testing the Templafy plugin in ChatGPT
 
-If you tried the Templafy skills in ChatGPT and it built the deck with its own slide tool instead —
-**that is expected in the current setup, and it is not a bug in the skills.** This guide explains why, how
-to test correctly, and how to make Templafy win for real.
+For the full picture (App vs skills, build flags, submission) see `CHATGPT-DISTRIBUTION.md`; for the exact
+prompts see `REGRESSION-TESTS.md`. This page is the quick "is it working?" checklist.
 
-## TL;DR
+## First: which surface are you on?
 
-- The skills are fine. The problem is **selection**: ChatGPT picks its own built-in `presentations`
-  skill / `artifact_handoff` slide route for "make a deck" *before* the Templafy skill is chosen, so the
-  Templafy skill never runs.
-- Loose skills sitting next to the **published Templafy App** (they were **not** bundled into the App) have
-  the weakest possible selection signal, so they lose that race almost every time.
-- To test the skills work at all: **force the Templafy path explicitly** (below).
-- To make Templafy win **without** forcing it: use a **Workspace/Agent** that deprioritizes the built-in
-  slide tools and enables the Templafy connector (below).
+- **Chat** — the Templafy **connector** tools are reachable (approved app installs one-click, or a custom
+  connector via Developer Mode), but **skills don't route** here, so a plain "make a deck" tends to hit
+  ChatGPT's built-in slide route. Invoke Templafy explicitly (`@Templafy …`) to use the connector in Chat.
+- **Work / Codex** — the **skills** load and route deck requests to Templafy. **Do functional testing here.**
 
-## Why this happens
+If the deck came back as a local `.pptx` built with the built-in slide tool, that is a **selection** outcome
+(the built-in route was chosen before the Templafy skill), not a bug in the skill body.
 
-1. **The skills are loose, not bundled.** They were added separately from the published Templafy App, before
-   ChatGPT had the plugin concept. Loose `SKILL.md`s carry only a name + description — no connector binding and
-   no `allow_implicit_invocation` policy. That is the weakest signal ChatGPT has for choosing a skill.
-2. **ChatGPT added a built-in `presentations` skill.** It builds decks with pptxgenjs/python-pptx and is
-   weighted heavily for exactly the phrase "make a presentation / deck / slides." It out-competes a loose
-   third-party skill on selection.
-3. **A mandatory pre-route.** Presentation requests are pushed into `artifact_handoff.prepare_artifact_generation`
-   before other tools, which also front-runs the Templafy skill.
+### Recognising the two paths in a trace
 
-Net effect: `make a deck` → built-in `presentations` / `artifact_handoff` → a local `.pptx`, and the Templafy
-skill + connector are never reached. This is **selection**, not skill content — a skill that is not selected
-cannot run its own rules.
+- **Built-in (wrong):** "listed slide files and helpers", "validated package", "created … slides with shapes",
+  `artifact_handoff.prepare_artifact_generation`, `python … python-pptx`, or `image_gen`.
+- **Templafy (right):** `find_document_agents → list_themes → collect_presentation_context → generate_presentation_ui`.
 
-### How to recognize the built-in path in a trace
+## Step 1 — Confirm the skills work (isolate selection from behaviour)
 
-You are on the built-in path (not Templafy) if you see steps like:
-
-- "Listed slide files and helpers"
-- "Created directory, validated package, and inspected functions and scripts"
-- "Created … slides with shapes and images"
-- `artifact_handoff.prepare_artifact_generation`, `python_user_visible.exec` with `python-pptx`, or `image_gen.text2im`
-
-You are on the Templafy path if you see: `find_document_agents` → `list_themes` → `collect_presentation_context`
-→ `generate_presentation_ui`.
-
-## Step 1 — Confirm the skills actually work (force the path)
-
-This isolates *selection* from *behaviour*. In a chat where the Templafy connector is enabled, be explicit:
+In a Work/Codex session with the Templafy connector signed in, force the path:
 
 > **"Use the Templafy skill to build this deck — do not use the built-in presentation/slides tool."**
+> or **"@Templafy create a 5-slide company overview deck."**
 
-or invoke the connector directly:
+- **PASS** (trace shows the Templafy path, generation view opens) → the skills work; any remaining problem is
+  *selection*. Go to Step 2.
+- **FAIL even when forced** (no `find_document_agents`, or a sign-in / "no tools" error) → the **connector isn't
+  reachable** in that session. Enable/sign in the Templafy app first (`skills/connect-verify-templafy/`), retry.
 
-> **"@Templafy create a 5-slide company overview deck."**
+## Step 2 — Make Templafy win without forcing it (Work/Codex)
 
-**Expected (PASS):** the trace shows `find_document_agents` → `list_themes` (you pick a theme) →
-`collect_presentation_context` → `generate_presentation_ui`, and the Templafy generation view opens.
+Selection is agent/workspace configuration:
 
-- If it **PASSES** → the skills are working; your only problem is selection. Go to Step 2.
-- If it **FAILS** even when forced (no `find_document_agents`, or a sign-in / "no tools" error) → the **Templafy
-  connector is not actually reachable** in that session. Confirm the published App/connector is enabled and
-  signed in first (see `skills/connect-verify-templafy/`), then retry.
+1. **Scope the agent to Templafy** so "make a deck" maps to the connector.
+2. **Deprioritize the built-in slide / artifact / canvas generators** for that agent.
+3. Keep **`create-branded-presentation`** prominent — its `agents/openai.yaml` sets
+   `allow_implicit_invocation: true` and declares the Templafy MCP dependency.
 
-## Step 2 — Make Templafy win *without* forcing it (the durable fix)
-
-Selection is a workspace/agent-configuration problem. Create a **Workspace or custom Agent** and:
-
-1. **Enable the Templafy connector** on that Agent.
-2. **Disable / deprioritize the competing built-ins** for that Agent — Canvas, image generation, and especially
-   the built-in **slide / presentation / artifact generator** (the `presentations` skill and `artifact_handoff`).
-   If ChatGPT cannot make slides itself, it cannot intercept.
-3. **Add a top-level Agent instruction** (this sits above skill selection and intercepts earliest):
-   > *"All presentation / deck / PowerPoint requests must use the Templafy connector. Never use the built-in
-   > slide, presentation, artifact, or canvas generators."*
-4. **Add the Templafy skills** to that Agent, and keep `create-branded-presentation` prominent.
-
-Then re-run the prompts in `REGRESSION-TESTS.md` **without** forcing, and confirm the trace stays on the
-Templafy tools.
-
-## Step 3 — Fix it at the source (recommended for real rollout)
-
-Loose skills will always be the weakest option. Bind the skills to the connector so they ship as one unit:
-
-- **Bundle the skills into the published App.** The App submission portal has a **Skills** section; re-submit the
-  Templafy App with the skills included so the published App carries them (they are currently separate).
-- **Or distribute the plugin** (`.codex-plugin/plugin.json` + each skill's `agents/openai.yaml`, which set
-  `allow_implicit_invocation: true` and declare the Templafy MCP dependency) for the Codex / ChatGPT Work
-  surface. See `CHATGPT-DISTRIBUTION.md`.
-
-Either replaces "loose skill, weak signal" with "bound skill, strong signal" — the single biggest improvement to
-selection.
+Then re-run `REGRESSION-TESTS.md` Part A **without** forcing and confirm the trace stays on the Templafy tools.
 
 ## What is *not* the fix
 
-- Rewriting the skill bodies. Every "add a rule inside the skill" idea only helps once the skill is **selected**;
-  it does nothing about the selection race. (Audit files generated by the failing chat tend to suggest these —
-  they assume the skill ran.)
-- Re-phrasing the user prompt. The built-in path wins on the plain phrasing; wording tweaks do not reliably beat
-  a native skill.
-
-## Quick reference
-
-| Symptom | Cause | Action |
-|---|---|---|
-| Deck built with pptxgenjs/python-pptx; no `find_document_agents` | Built-in `presentations`/`artifact_handoff` won selection | Step 2 (Agent config); Step 3 (bundle skills) |
-| Forced Templafy path works, unforced does not | Pure selection problem | Step 2 |
-| Forced path also fails (no Templafy tools / sign-in error) | Connector not reachable | Enable/sign in the connector; `connect-verify-templafy` |
-| Skills present but never listed as chosen | Loose install, weak signal | Step 3 (bundle into App or ship the plugin) |
+- Rewriting skill bodies to "beat" the built-in — that only helps once the skill is **selected**; it does nothing
+  about the selection race. (Failing-chat audits tend to suggest these; they assume the skill already ran.)
+- Re-phrasing the user prompt — the built-in path wins on plain phrasing.
