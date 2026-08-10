@@ -1,8 +1,8 @@
 {
   "name": "templafy",
   "version": "1.4.2",
-  "description": "Turn AI-generated content and company knowledge into business-ready PowerPoint presentations with Templafy Document Agents. Discover relevant document agents, choose company-approved themes, collect requirements, and generate a branded PPTX. Every output is built from approved templates, brand assets, and best-practice content, ensuring documents are consistent and compliant without copying, reformatting, or manual cleanup.",
+  "description": "Create on-brand, compliant presentations with Templafy — from prompt to business-ready PowerPoint, built from your company's approved themes and Document Agents.",
   "author": { "name": "Templafy" },
-  "homepage": "https://templafy.com",
+  "homepage": "https://www.templafy.com/",
   "keywords": ["templafy", "presentations", "powerpoint", "brand-governance", "document-generation"]
 }
