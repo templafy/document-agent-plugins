@@ -1,24 +1,48 @@
 {
-  "name": "templafy",
-  "version": "1.4.2",
-  "description": "Create on-brand, compliant presentations with Templafy — from prompt to business-ready PowerPoint, built from your company's approved themes and Document Agents.",
-  "author": { "name": "Templafy" },
+  "name": "app-6a2ab750d2788191ba2f32a602fabe29",
+  "version": "2.2.1",
+  "description": "Turn ChatGPT content and company knowledge into business-ready PowerPoint presentations and Word documents. Templafy connects ChatGPT to your approved Document Agents, brand themes, and reusable content. Create pitch decks, proposals, reports, and more with your company's branding and business rules built in.",
+  "author": {
+    "name": "Templafy"
+  },
   "homepage": "https://www.templafy.com/",
-  "keywords": ["templafy", "presentations", "powerpoint", "brand-governance", "document-generation"],
+  "keywords": [
+    "templafy",
+    "presentations",
+    "powerpoint",
+    "word",
+    "docx",
+    "document-drafting",
+    "brand-governance",
+    "document-generation"
+  ],
   "skills": "./skills/",
-  "apps": "./.app.json",
   "mcpServers": "./.mcp.json",
   "interface": {
-    "displayName": "Templafy Plugin",
-    "shortDescription": "On-brand presentations from your approved themes and Document Agents.",
-    "longDescription": "Templafy turns a prompt into a business-ready, brand-compliant PowerPoint built from your company's approved Document Agents and themes. Bundles skills that route presentation requests to Templafy and keep generation on-brand.",
-    "category": "Productivity",
-    "capabilities": ["Read", "Write"],
-    "websiteURL": "https://www.templafy.com/",
-    "defaultPrompt": [
-      "Create an on-brand presentation with Templafy.",
-      "Make a 5-slide business review deck with Templafy."
+    "capabilities": [
+      "PowerPoint presentations and pitch decks",
+      "Word proposals and reports",
+      "Document structure and business rules",
+      "Company-approved templates and branding",
+      "Approved content reuse"
     ],
-    "developerName": "Templafy"
+    "category": "Productivity",
+    "defaultPrompt": [
+      "Research how AI helps the healthcare industry. Build a 12-slide exec deck.",
+      "Create a project proposal in Word with objectives, scope, deliverables, and timeline.",
+      "Create a business proposal for ACME Corp from the attached call transcript."
+    ],
+    "developerName": "Templafy",
+    "displayName": "Templafy",
+    "longDescription": "Turn ChatGPT conversations into accurate, compliant, on-brand business documents with Templafy, the agentic document generation platform for enterprises.\nTemplafy for ChatGPT connects conversational AI with enterprise document generation, document automation, and content governance. Research, analyze, summarize, and draft in ChatGPT, then use Templafy Document Agents to transform that work into editable, business-ready presentations and documents using your organization's approved templates, brand assets, enterprise knowledge, business data, and compliance rules.\nInstead of copying AI-generated content into PowerPoint or Word, searching for the latest template, or fixing layouts by hand, teams can move from conversation to professional output with less manual document work. Templafy combines Agentic workflows with rules-based automation and centralized control, helping organizations scale business content creation while maintaining brand compliance, accuracy, and consistency.\n\nCreate content such as:\n- Sales presentations, pitch decks, and client presentations\n- Proposals and RFP responses for proposal management workflows\n- Quarterly business reviews, account plans, and customer summaries\n- Executive presentations, internal reports, and research briefs\n- Consulting and professional services deliverables\n- Knowledge-sharing decks and other business-critical documents\n\nWhy enterprises use Templafy:\n- Agentic document generation: Turn prompts, research, and source material into strong business documents.\n- Document automation: Use approved templates, reusable content, business rules, and enterprise data to reduce repetitive work and manual copy-paste.\n- Enterprise content governance: Centrally manage templates, content, assets, AI instructions, and permissions across teams.\n- Brand compliance: Apply approved branding, existing PowerPoint layouts, Word templates, content, and document standards throughout the creation workflow.\n- Workflow integration: Create content for the Microsoft Office formats businesses rely on, while continuing to work with ChatGPT and your existing technology ecosystem.\n\nFor employees, Templafy reduces time spent finding templates, locating approved assets, reformatting content, and correcting layouts, leaving more time for customers, analysis, strategy, and other high-value work.\nFor Marketing and Brand teams, Templafy supports self-service content creation with centralized template management, approved content, brand assets, and governance controls.\nFor IT and AI teams, Templafy provides an enterprise document orchestration layer for Agentic workflows. Administrators can govern how templates, organizational content, business data, document standards, and AI capabilities are used without creating a disconnected document process. Instead of regenerating all content with AI, Templafy reuses much of the existing content, which reduces overall AI usage costs.\nTemplafy works with the tools employees already use and connects ChatGPT to trusted enterprise context through MCP (Model Context Protocol) and enterprise integrations. The result is a faster path from an AI conversation to professional, governed business content in familiar document formats.\nAI is changing where knowledge work happens. Employees increasingly research, analyze, and draft in AI assistants such as ChatGPT, but the final output still needs to meet enterprise standards.\nIt needs to be accurate and high quality.\nIt needs to reflect the organization's brand.\nIt needs to use approved content, including existing material that should be reused rather than regenerated.\nIt needs to comply with business rules and governance requirements.\nAnd it needs to work in the document formats businesses rely on.\nTemplafy bridges that gap. Think, research, and draft with ChatGPT. Use Templafy to create consistent, compliant, on-brand presentations and documents with less manual work.",
+    "privacyPolicyURL": "https://www.templafy.com/home/platform/privacy/privacy-policies/general-privacy-policy/",
+    "shortDescription": "Business-ready docs and decks",
+    "supportURL": "https://support.templafy.com/hc/en-us/requests/new",
+    "termsOfServiceURL": "https://www.templafy.com/home/legal/templafy-saas-agreement/",
+    "websiteURL": "https://templafy.com",
+    "composerIcon": "./assets/templafy-light.png",
+    "logo": "./assets/templafy-light.png",
+    "composerIconDark": "./assets/templafy-dark.png",
+    "logoDark": "./assets/templafy-dark.png"
   }
 }

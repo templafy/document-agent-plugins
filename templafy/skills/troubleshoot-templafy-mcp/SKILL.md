@@ -1,6 +1,6 @@
 ---
 name: troubleshoot-templafy-mcp
-description: Use when a Templafy action fails or behaves unexpectedly — sign-in/OAuth errors, no agents or themes appearing, generation that times out or stalls, a missing download link, the generation view not rendering, or expected Templafy tools not showing up. Not for first-time setup/sign-in (use connect-verify-templafy) or for building a deck (use create-branded-presentation).
+description: Use when a Templafy action fails or behaves unexpectedly — sign-in/OAuth errors, no agents or themes appearing, generation that times out or stalls, a missing download link, the generation view not rendering, or expected Templafy tools not showing up. Not for first-time setup/sign-in (use connect-verify-templafy) or for building a deck or Word document (use create-branded-presentation or create-branded-word-document).
 ---
 
 # Troubleshoot Templafy
@@ -40,6 +40,15 @@ never "fix" a Templafy failure by switching to a built-in slide / canvas / Power
 - **No themes** → `list_themes` needs a valid `agentId` (never call it bare). An empty result means either no
   themes are configured for this tenant *or* the service is briefly unavailable — confirm the connection with
   `find_document_agents`, then it's a tenant/admin matter.
+- **A Word document (`compose_word_document`) reports a failure status** → read the `status` field; this is
+  reported as a normal result, not a tool error. `ValidationFailed` means the document didn't validate —
+  nothing was generated, correct the section by `sectionIndex` and resend `final: true`. `Failed` with a
+  workflow transition is retryable (`compose_word_document` again, unchanged content). `RetriesExhausted`, or
+  `Failed` with no transition, means the session is done — start a new document. See
+  `create-branded-word-document` for the full handling.
+- **No widget / no file after `generate_word_ui`** → a `Ready` status with no visible widget is the same class
+  of client/app-side rendering issue as the presentation widget below, not a routing or generation failure —
+  report it and escalate rather than switching generators.
 - **Times out / stalls** → generation is long-running; a chat-side timeout does **not** mean the deck was lost —
   it may still be generating. Re-check status rather than blindly regenerating (avoid duplicates). Still stuck
   after several minutes → treat it as genuinely stuck and escalate.

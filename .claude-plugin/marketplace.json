@@ -4,14 +4,14 @@
   "owner": {
     "name": "Templafy"
   },
-  "description": "Templafy skills and MCP connector for on-brand presentation creation.",
+  "description": "Turn Claude content and company knowledge into business-ready PowerPoint presentations and Word documents. Templafy connects Claude to your approved Document Agents, brand themes, and reusable content. Create pitch decks, proposals, reports, and more with your company's branding and business rules built in.",
   "plugins": [
     {
       "name": "templafy",
       "source": "./templafy",
-      "description": "Create on-brand, compliant presentations with Templafy — from prompt to business-ready PowerPoint, built from your company's approved themes and Document Agents.",
+      "description": "Templafy for Claude turns your Claude conversations into accurate, compliant, on-brand business documents.\nResearch, analyze, and draft with Claude. Then use Templafy Document Agents to build editable PowerPoint and Word files on your approved templates, brand assets, enterprise knowledge, business data, and compliance rules. Skip the copy-paste. Stop hunting for the latest template. Stop fixing layouts by hand.\nCreate sales and pitch decks, proposals, RFP responses, QBRs, account plans, executive reports, research briefs, and consulting deliverables.\nTemplafy reuses approved templates, content, and best practice slides instead of regenerating everything, cutting AI credit usage by almost 50% and improving consistency.\nMarketing and Brand teams enable governed self-service. IT and AI teams gain a central document orchestration layer for Claude.",
       "category": "productivity",
-      "keywords": ["templafy", "presentations", "powerpoint", "brand-governance", "document-generation"]
+      "keywords": [ "templafy", "presentations", "powerpoint", "word", "docx", "document-drafting", "brand-governance", "document-generation" ]
     }
   ]
 }

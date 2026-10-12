@@ -17,7 +17,12 @@ internal terms).
 | Flow stops after theme selection; model says Templafy has "no more actions" / the next step is "not exposed beyond theme selection", or emits no-op `python` | ChatGPT hasn't re-listed the connector's later tools this turn — they're surfaced on demand, not gone | Re-discover the connector's tools (`api_tool.list_resources` for `Templafy` / tool search), then call `collect_presentation_context` (ids as strings, same session) through to `PrepareOutline`; don't claim unavailable or fall back |
 | `list_themes` / `collect_presentation_context` rejects the agent id (`… is not of type 'string'`) | `find_document_agents` returns the id as a number; downstream tools require a string | Stringify the id before passing it on (server-side, agents should return string ids like themes already do) |
 | A non-Templafy `.pptx` was produced | ChatGPT's native slide/artifact route intercepted the request | See `create-branded-presentation`; deprioritize/disable built-in slide tools for the Templafy agent |
-| Missing download / PDF link | Generation didn't reach completion | Diagnose via the timeout / widget rows above |
+| A non-Templafy `.docx` was produced | Canvas or a built-in document/file tool intercepted the request | See `create-branded-word-document`; deprioritize/disable built-in canvas/document tools for the Templafy agent |
+| `compose_word_document` returns `ValidationFailed` | The assembled document didn't validate | Nothing was generated; correct the flagged section by `sectionIndex` and resend `final: true` |
+| `compose_word_document`/`get_word_document` returns `Failed` with a workflow transition | A problem on Templafy's side, not the document | Retry `compose_word_document` with the same `sessionId`, `sectionIndex`, content, and `final: true` — nothing needs rewriting |
+| `RetriesExhausted`, or `Failed` with no workflow transition | The session can't be retried further | Tell the user generation failed; start a new document via `compose_word_document` without a `sessionId` |
+| `generate_word_ui` returns `Ready` but no widget/file appears | Client/app-side widget rendering issue, same class as the presentation row above | Report "the generation view didn't render after handoff" and escalate; don't switch generators |
+| Missing download / PDF link | Generation didn't reach completion | Diagnose via the timeout / widget / Word failure-status rows above |
 
 **Escalation:** persistent connection or widget-render issues are server/tenant-side → the user's Templafy
 administrator or `support.templafy.com`. Always give the concrete symptom (which step, what the tool returned).

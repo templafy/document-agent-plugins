@@ -1,0 +1,13 @@
+# ChatGPT/Codex skill metadata (optional; ignored by Claude).
+policy:
+  allow_implicit_invocation: true
+dependencies:
+  tools:
+    - type: "mcp"
+      value: "templafy"
+      transport: "streamable_http"
+      url: "https://mcp.templafy.com/"
+      description: "Templafy document connector"
+interface:
+  display_name: "Create a branded Word document"
+  short_description: "Build an on-brand Word document end-to-end through Templafy."

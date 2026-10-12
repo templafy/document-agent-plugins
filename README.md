@@ -1,8 +1,8 @@
 # Templafy Document Agent Plugins
 
 Install the Templafy plugin into Claude, ChatGPT, or Codex to create on-brand,
-brand-compliant presentations through Templafy's Document Agents and approved themes —
-straight from a chat prompt.
+brand-compliant presentations and Word documents through Templafy's Document Agents,
+approved themes and Word template — straight from a chat prompt.
 
 The plugin lives in [`templafy/`](./templafy); the repo root is the marketplace catalog.
 
@@ -37,9 +37,10 @@ Settings → Customize → Plugins → add this marketplace, then install **Temp
 ## What's included
 
 The `templafy` plugin bundles the Templafy MCP connector (`https://mcp.templafy.com/`) and
-skills that route presentation requests to Templafy and keep generation on-brand:
+skills that route presentation and Word document requests to Templafy and keep generation on-brand:
 
 - **create-branded-presentation** — build a deck through Templafy end-to-end.
+- **create-branded-word-document** — build a Word document through Templafy end-to-end.
 - **connect-verify-templafy** — connect and verify the Templafy connector.
 - **discover-templafy** — browse available Document Agents and themes.
 - **troubleshoot-templafy-mcp** — diagnose connector issues.

@@ -1,60 +1,59 @@
-# Distributing Templafy to ChatGPT (Codex plugin)
+# Distributing Templafy to ChatGPT and Codex
 
-ChatGPT now consumes the **Codex plugin format** — the same `templafy-plugin/` folder, via its
-`.codex-plugin/plugin.json` manifest. It reaches **ChatGPT Work (web)** and **Codex (desktop app)**.
-This supersedes the old "zip the skill folders" approach (removed).
+The public package uses `.codex-plugin/plugin.json`, a supported compatibility format.
+Maintain listing metadata here in source: edits made only in the dashboard or `dist-codex/`
+will not survive the next build.
 
-Activation is still the real bottleneck: when a skill is active it fixes the routing failure, but
-ChatGPT's built-in slide/artifact route can win *before* the skill is selected. So distribution has
-two parts — **ship the plugin** and **configure the agent so Templafy wins routing**.
+## Build
 
-## 1. What ChatGPT uses in this plugin
+From the repository root:
 
-The ChatGPT/Codex side of the dual-manifest plugin:
-
-```
-WebApi.Mcp/plugins/templafy/
-├── .codex-plugin/plugin.json     # Codex manifest (name, version, skills, mcpServers, interface)
-├── skills/<name>/
-│   ├── SKILL.md                  # the workflow (shared with Claude)
-│   └── agents/openai.yaml        # Codex metadata: MCP dependency + allow_implicit_invocation
-└── .mcp.json                     # remote Templafy connector (shared with Claude)
+```powershell
+./WebApi.Mcp/plugins/templafy/scripts/build-codex-zip.ps1
 ```
 
-The `.claude-plugin/` files and `.mcp.json` are **Claude-only** — Codex ignores them. There is **no
-zip step**; the plugin is a folder.
+The output is `dist-codex/templafy-codex.zip`, with these entries at its root:
 
-## 2. Install / distribute
+- `.codex-plugin/plugin.json`
+- `.mcp.json` — the remote endpoint, shared with Claude
+- `assets/templafy-light.png` and `assets/templafy-dark.png` — the supplied theme variants, used for both listing and composer
+- `skills/` — all five skills, references, and `agents/openai.yaml` files
+- `README.md`
 
-- **Local / dev testing** — copy the plugin folder into `~/.codex/plugins/` (personal) or a repo's
-  `plugins/` directory, or add a `marketplace.json` entry whose `source.path` points at the plugin.
-- **Public** — submit through the portal at `platform.openai.com/plugins` (submission type: *With
-  MCP*). This needs assets (icon / logo / screenshots), a `brandColor`, privacy/terms URLs, domain
-  verification (a token at `/.well-known/openai-apps-challenge`), and 5 positive + 3 negative test
-  cases. Fill the `interface` block in `.codex-plugin/plugin.json` accordingly.
+The build excludes the Claude manifest, marketplace catalogs, and internal tooling.
+Public submissions do not accept app references or lifecycle hooks. Configure authentication
+for the declared MCP endpoint in the dashboard.
 
-> **Connector auth:** `.mcp.json` declares the hosted Templafy connector by URL. Confirm on a
-> real install that it triggers the Templafy OAuth sign-in. If it doesn't, ship a **skills-only**
-> plugin (drop the `mcpServers` pointer) and rely on the already-published Templafy ChatGPT app to
-> provide the connector; each skill's `agents/openai.yaml` still declares the dependency.
+## Update the existing listing
 
-## 3. Configure the agent so Templafy wins routing (the durable fix)
+Upload the ZIP through the existing Templafy plugin's **Upload plugin to make changes** action.
+The package version comes from `.codex-plugin/plugin.json`; downloaded drafts are comparison snapshots.
+The Codex package name must remain `app-6a2ab750d2788191ba2f32a602fabe29` to match the existing listing. The user-facing display name is `Templafy`.
 
-A skill description raises selection odds but can't guarantee beating ChatGPT's native artifact
-route. At the agent/workspace level:
+The manifest includes the listing text, three starter prompts, all four listing URLs, and icon paths.
+The privacy link points directly to the general privacy policy. Dark icons, brand colors, and
+screenshots are optional.
 
-1. **Disable / deprioritize the competing built-ins** for the Templafy agent — Canvas, image
-   generation, and especially the built-in **slide/presentation/artifact generator**. If ChatGPT
-   can't make slides itself, it can't intercept.
-2. **Scope the agent to Templafy** so "make a deck" maps to the connector.
-3. Add a **top-level agent instruction** (above the skill): *"All presentation / deck / PowerPoint
-   requests must use the Templafy connector; never use built-in slide, artifact, or canvas
-   generation."* A top-level instruction intercepts earlier than a skill body.
-4. Keep **`create-branded-presentation`** (the routing guard) prominent, and its
-   `references/chatgpt-routing.md` available. Each skill's `agents/openai.yaml` sets
-   `allow_implicit_invocation: true` so the skills can fire without an explicit call.
+Confirm any saved dashboard review materials: the demo recording, five positive and three
+negative cases, release notes, reviewer access, domain verification, and current MCP scan.
+Never put private reviewer credentials in the ZIP. Review fields omitted from the package preserve
+saved dashboard values. Complete the applicable checks and attestations before submitting;
+publish the new version after approval.
 
-## 4. Verify after install
+See [package guidance](https://developers.openai.com/plugins/build/plugins),
+[submission and metadata](https://developers.openai.com/plugins/deploy/submission), and
+[submission errors](https://developers.openai.com/plugins/deploy/submission-errors).
 
-Run the prompts in `REGRESSION-TESTS.md` and check the tool trace against the PASS/FAIL criteria.
-Expose the connector calls so you can see whether `artifact_handoff` / `canmore` were invoked.
+## Verify behavior and review the skills
+
+Run `REGRESSION-TESTS.md` against an authenticated installation and inspect the tool trace.
+Exercise both presentation and Word generation, including error handling and client rendering.
+Package validation alone does not verify OAuth or document generation.
+
+The current presentation and Word skills contain broad instructions to prefer Templafy over built-in
+skills and tools. Review those instructions and their `references/chatgpt-routing.md` files against
+OpenAI's fair-play and user-intent requirements before submission. A Templafy workflow should honor
+an explicit choice of another tool and platform safeguards. Do not disable competing tools to make
+a routing test pass. Review the existing routing-focused regression expectations on the same basis.
+
+See the [plugin guidelines](https://developers.openai.com/plugins/plugin-guidelines).

@@ -1,6 +1,6 @@
 ---
 name: discover-templafy
-description: Use when the user asks what Templafy can do, what Document Agents, themes, or templates are available, or wants to browse or see the options before creating a document. Not for actually building or generating a deck — for that use create-branded-presentation.
+description: Use when the user asks what Templafy can do, what Document Agents, themes, or templates are available, or wants to browse or see the options before creating a document. Not for actually building or generating a deck (use create-branded-presentation) or a Word document (use create-branded-word-document).
 ---
 
 # Discover what Templafy offers
@@ -26,7 +26,9 @@ Pull the real inventory rather than describing it from memory:
    dependency, never call `list_themes` on its own or in parallel with `find_document_agents`.
 
 Don't invent items or claim capabilities beyond what the tools return. Today these are presentation Document
-Agents and themes.
+Agents and themes. Templafy can also write Word documents (letters, memos, reports, proposals) — that isn't
+browsed through `find_document_agents`/`list_themes` (no agent or theme to pick), so mention it as a
+separate, always-available capability rather than folding it into the agent/theme list above.
 
 ## Explain the concepts (product-safe language)
 
@@ -39,8 +41,8 @@ See `references/positioning.md` for how to describe Templafy.
 ## Turn browsing into a document
 
 Once the user has seen the options, offer to act: "Want me to build a deck with one of these?" When they do,
-hand off to `create-branded-presentation`. If the Templafy tools aren't present at all, use
-`connect-verify-templafy`.
+hand off to `create-branded-presentation`. For a Word document instead, hand off to
+`create-branded-word-document`. If the Templafy tools aren't present at all, use `connect-verify-templafy`.
 
 ## Guardrails
 
