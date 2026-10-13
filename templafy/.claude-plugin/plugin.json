@@ -4,6 +4,10 @@
   "description": "Templafy for Claude turns your Claude conversations into accurate, compliant, on-brand business documents.\nResearch, analyze, and draft with Claude. Then use Templafy Document Agents to build editable PowerPoint and Word files on your approved templates, brand assets, enterprise knowledge, business data, and compliance rules. Skip the copy-paste. Stop hunting for the latest template. Stop fixing layouts by hand.\nCreate sales and pitch decks, proposals, RFP responses, QBRs, account plans, executive reports, research briefs, and consulting deliverables.\nTemplafy reuses approved templates, content, and best practice slides instead of regenerating everything, cutting AI credit usage by almost 50% and improving consistency.\nMarketing and Brand teams enable governed self-service. IT and AI teams gain a central document orchestration layer for Claude.",
   "author": { "name": "Templafy" },
   "homepage": "https://www.templafy.com/",
+  "license": "MIT",
   "keywords": ["templafy", "presentations", "powerpoint", "word", "docx", "document-drafting", "brand-governance", "document-generation"],
-  "privacyPolicyUrl": "https://www.templafy.com/home/platform/privacy/privacy-policies/general-privacy-policy/"
+  "icon": "../assets/templafy-dark-512.png",
+  "privacyPolicyUrl": "https://www.templafy.com/home/platform/privacy/privacy-policies/general-privacy-policy/",
+  "termsOfServiceUrl": "https://www.templafy.com/home/legal/templafy-saas-agreement/",
+  "supportUrl": "https://support.templafy.com/hc/en-us/requests/new"
 }
