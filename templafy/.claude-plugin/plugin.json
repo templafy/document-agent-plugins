@@ -6,7 +6,7 @@
   "homepage": "https://www.templafy.com/",
   "license": "MIT",
   "keywords": ["templafy", "presentations", "powerpoint", "word", "docx", "document-drafting", "brand-governance", "document-generation"],
-  "icon": "../assets/templafy-dark-512.png",
+  "icon": "./assets/templafy-dark-512.png",
   "privacyPolicyUrl": "https://www.templafy.com/home/platform/privacy/privacy-policies/general-privacy-policy/",
   "termsOfServiceUrl": "https://www.templafy.com/home/legal/templafy-saas-agreement/",
   "supportUrl": "https://support.templafy.com/hc/en-us/requests/new"
