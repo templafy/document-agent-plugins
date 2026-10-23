@@ -35,7 +35,7 @@ The privacy link points directly to the general privacy policy. Dark icons, bran
 screenshots are optional.
 
 Confirm any saved dashboard review materials: the demo recording, five positive and three
-negative cases, release notes, reviewer access, domain verification, and current MCP scan.
+negative cases, release notes (from `WebApi.Mcp/CHANGELOG.md`), reviewer access, domain verification, and current MCP scan.
 Never put private reviewer credentials in the ZIP. Review fields omitted from the package preserve
 saved dashboard values. Complete the applicable checks and attestations before submitting;
 publish the new version after approval.

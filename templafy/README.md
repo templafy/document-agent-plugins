@@ -19,6 +19,10 @@ Both share `.mcp.json` and `skills/`. Build the public ChatGPT/Codex ZIP with
 `scripts/build-codex-zip.ps1`; it includes the listing assets and remote MCP configuration.
 For submission steps, see `CHATGPT-DISTRIBUTION.md` in the source repository.
 
+For the separate Microsoft 365 package that delivers Teams, Copilot Chat, and Copilot Cowork,
+see `WebApi.Mcp/docs/Copilot marketplace submission.md` in the source repository.
+Its package source and build live in the Integrations repository.
+
 ## Install / test locally (Claude)
 
 ```bash
