@@ -22,6 +22,10 @@ For submission steps, see `CHATGPT-DISTRIBUTION.md` in the source repository.
 For the separate Microsoft 365 package that delivers Teams, Copilot Chat, and Copilot Cowork,
 see `WebApi.Mcp/docs/Copilot marketplace submission.md` in the source repository.
 Its package source and build live in the Integrations repository.
+From IntegrationManagement, run `./WebApi.Mcp/plugins/templafy/scripts/update-copilot-tools.ps1 -Check`
+to export the local MCP contract and preview updates to that package's pinned tools.
+Remove `-Check` to apply, then review the Git diff. Both sibling checkouts are required;
+this command does not build the Microsoft 365 ZIP.
 
 ## Install / test locally (Claude)
 
