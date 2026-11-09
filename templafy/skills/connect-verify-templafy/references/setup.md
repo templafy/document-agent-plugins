@@ -1,13 +1,12 @@
 # Connecting Templafy, per assistant
 
-Templafy is a remote MCP server: `https://mcp.templafy.com/`. Every client requests the scopes `library.read`
-and `library.generate`, and signs in via OAuth. The exact flow differs per assistant.
+Templafy is a remote MCP server: `https://mcp.templafy.com/`. Every client signs in via OAuth. The exact flow
+differs per assistant.
 
 ## Claude Code / Claude Desktop / claude.ai
 
 Add the remote MCP server by URL (`https://mcp.templafy.com/`) and complete the browser sign-in when prompted.
-Claude registers itself dynamically — no client secret to paste. Approve the `library.read` / `library.generate`
-scopes; you're returned to Claude after consent.
+Claude registers itself dynamically — no client secret to paste. You're returned to Claude after signing in.
 
 ## ChatGPT
 
