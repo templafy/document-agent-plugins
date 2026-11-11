@@ -15,7 +15,9 @@ approved themes, Document Agents and Word template.
 ## Packaging note
 
 Claude uses `.claude-plugin/plugin.json`; ChatGPT and Codex use `.codex-plugin/plugin.json`.
-Both share `.mcp.json` and `skills/`. Build the public ChatGPT/Codex ZIP with
+Both share `.mcp.json` and `skills/`. Packaging scripts are available only in the
+IntegrationManagement source checkout; they are excluded from the public GitHub mirror.
+From that checkout's plugin directory, build the public ChatGPT/Codex ZIP with
 `scripts/build-codex-zip.ps1`; it includes the listing assets and remote MCP configuration.
 For submission steps, see `CHATGPT-DISTRIBUTION.md` in the source repository.
 
